@@ -1,0 +1,147 @@
+\begin{figure}[!htb] 
+	\centering 
+		 \includegraphics[width=\textwidth]{stock/figs/plot_AAPL.pdf}
+	\caption{Showcase AAPL of predicted v.s. actual daily prices of one stock over test period, 2019/08/16-2020/02/14.}
+	\label{fig:plot_AAPL}
+\end{figure}
+
+\begin{figure}[!htb] 
+	\centering 
+		 \includegraphics[width=\textwidth]{stock/figs/plot_AFL.pdf}
+	\caption{Showcase AFL of predicted v.s. actual daily prices of one stock over test period, 2019/08/16-2020/02/14.}
+	\label{fig:plot_AFL}
+\end{figure}
+
+\begin{figure}[!htb] 
+	\centering 
+		 \includegraphics[width=\textwidth]{stock/figs/plot_AMZN.pdf}
+	\caption{Showcase AMZN of predicted v.s. actual daily prices of one stock over test period, 2019/08/16-2020/02/14.}
+	\label{fig:plot_AMZN}
+\end{figure}
+
+\begin{figure}[!htb] 
+	\centering 
+		 \includegraphics[width=\textwidth]{stock/figs/plot_BA.pdf}
+	\caption{Showcase BA of predicted v.s. actual daily prices of one stock over test period, 2019/08/16-2020/02/14.}
+	\label{fig:plot_BA}
+\end{figure}
+
+\begin{figure}[!htb] 
+	\centering 
+		 \includegraphics[width=\textwidth]{stock/figs/plot_CVX.pdf}
+	\caption{Showcase CVX of predicted v.s. actual daily prices of one stock over test period, 2019/08/16-2020/02/14.}
+	\label{fig:plot_CVX}
+\end{figure}
+
+\begin{figure}[!htb] 
+	\centering 
+		 \includegraphics[width=\textwidth]{stock/figs/plot_DAL.pdf}
+	\caption{Showcase DAL of predicted v.s. actual daily prices of one stock over test period, 2019/08/16-2020/02/14.}
+	\label{fig:plot_DAL}
+\end{figure}
+
+\begin{figure}[!htb] 
+	\centering 
+		 \includegraphics[width=\textwidth]{stock/figs/plot_DIS.pdf}
+	\caption{Showcase DIS of predicted v.s. actual daily prices of one stock over test period, 2019/08/16-2020/02/14.}
+	\label{fig:plot_DIS}
+\end{figure}
+
+\begin{figure}[!htb] 
+	\centering 
+		 \includegraphics[width=\textwidth]{stock/figs/plot_FB.pdf}
+	\caption{Showcase FB of predicted v.s. actual daily prices of one stock over test period, 2019/08/16-2020/02/14.}
+	\label{fig:plot_FB}
+\end{figure}
+
+\begin{figure}[!htb] 
+	\centering 
+		 \includegraphics[width=\textwidth]{stock/figs/plot_GE.pdf}
+	\caption{Showcase GE of predicted v.s. actual daily prices of one stock over test period, 2019/08/16-2020/02/14.}
+	\label{fig:plot_GE}
+\end{figure}
+
+\begin{figure}[!htb] 
+	\centering 
+		 \includegraphics[width=\textwidth]{stock/figs/plot_GM.pdf}
+	\caption{Showcase GM of predicted v.s. actual daily prices of one stock over test period, 2019/08/16-2020/02/14.}
+	\label{fig:plot_GM}
+\end{figure}
+
+\begin{figure}[!htb] 
+	\centering 
+		 \includegraphics[width=\textwidth]{stock/figs/plot_GOOG.pdf}
+	\caption{Showcase GOOG of predicted v.s. actual daily prices of one stock over test period, 2019/08/16-2020/02/14.}
+	\label{fig:plot_GOOG}
+\end{figure}
+
+\begin{figure}[!htb] 
+	\centering 
+		 \includegraphics[width=\textwidth]{stock/figs/plot_GS.pdf}
+	\caption{Showcase GS of predicted v.s. actual daily prices of one stock over test period, 2019/08/16-2020/02/14.}
+	\label{fig:plot_GS}
+\end{figure}
+
+\begin{figure}[!htb] 
+	\centering 
+		 \includegraphics[width=\textwidth]{stock/figs/plot_JNJ.pdf}
+	\caption{Showcase JNJ of predicted v.s. actual daily prices of one stock over test period, 2019/08/16-2020/02/14.}
+	\label{fig:plot_JNJ}
+\end{figure}
+
+\begin{figure}[!htb] 
+	\centering 
+		 \includegraphics[width=\textwidth]{stock/figs/plot_JPM.pdf}
+	\caption{Showcase JPM of predicted v.s. actual daily prices of one stock over test period, 2019/08/16-2020/02/14.}
+	\label{fig:plot_JPM}
+\end{figure}
+
+\begin{figure}[!htb] 
+	\centering 
+		 \includegraphics[width=\textwidth]{stock/figs/plot_MAR.pdf}
+	\caption{Showcase MAR of predicted v.s. actual daily prices of one stock over test period, 2019/08/16-2020/02/14.}
+	\label{fig:plot_MAR}
+\end{figure}
+
+\begin{figure}[!htb] 
+	\centering 
+		 \includegraphics[width=\textwidth]{stock/figs/plot_KO.pdf}
+	\caption{Showcase KO of predicted v.s. actual daily prices of one stock over test period, 2019/08/16-2020/02/14.}
+	\label{fig:plot_KO}
+\end{figure}
+
+\begin{figure}[!htb] 
+	\centering 
+		 \includegraphics[width=\textwidth]{stock/figs/plot_MCD.pdf}
+	\caption{Showcase MCD of predicted v.s. actual daily prices of one stock over test period, 2019/08/16-2020/02/14.}
+	\label{fig:plot_MCD}
+\end{figure}
+
+\begin{figure}[!htb] 
+	\centering 
+		 \includegraphics[width=\textwidth]{stock/figs/plot_NKE.pdf}
+	\caption{Showcase NKE of predicted v.s. actual daily prices of one stock over test period, 2019/08/16-2020/02/14.}
+	\label{fig:plot_NKE}
+\end{figure}
+
+\begin{figure}[!htb] 
+	\centering 
+		 \includegraphics[width=\textwidth]{stock/figs/plot_PG.pdf}
+	\caption{Showcase PG of predicted v.s. actual daily prices of one stock over test period, 2019/08/16-2020/02/14.}
+	\label{fig:plot_PG}
+\end{figure}
+
+\begin{figure}[!htb] 
+	\centering 
+		 \includegraphics[width=\textwidth]{stock/figs/plot_VZ.pdf}
+	\caption{Showcase VZ of predicted v.s. actual daily prices of one stock over test period, 2019/08/16-2020/02/14.}
+	\label{fig:plot_VZ}
+\end{figure}
+
+\begin{figure}[!htb] 
+	\centering 
+		 \includegraphics[width=\textwidth]{stock/figs/plot_WMT.pdf}
+	\caption{Showcase WMT of predicted v.s. actual daily prices of one stock over test period, 2019/08/16-2020/02/14.}
+	\label{fig:plot_WMT}
+\end{figure}
+
