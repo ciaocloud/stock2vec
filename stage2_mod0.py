@@ -118,7 +118,7 @@ class CrossModel(nn.Module):
     
     
 def train_model(model, train_dl, val_dl=None, n_epochs=1, criterion=nn.MSELoss(),
-                    lr=1e-2, weight_decay=0., one_cycle=True):
+                    lr=1e-2, weight_decay=0., one_cycle=True, verbose=False):
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     optimizer = optim.SGD(model.parameters(), lr=lr)#, weight_decay=weight_decay)
     if one_cycle:
@@ -148,7 +148,8 @@ def train_model(model, train_dl, val_dl=None, n_epochs=1, criterion=nn.MSELoss()
                 scheduler.step()
             losses.append(loss.item())
         avg_loss = np.mean(np.array(losses))
-        print("Epoch {0:d}: training loss={1:.3f}".format(epoch+1, avg_loss))
+        if verbose:
+            print("Epoch {0:d}: training loss={1:.3f}".format(epoch+1, avg_loss))
 
         if val_dl is not None:
             model.eval()
@@ -159,7 +160,8 @@ def train_model(model, train_dl, val_dl=None, n_epochs=1, criterion=nn.MSELoss()
                     preds = model(xb_cat, xb_cont, xb_mkt)
                     loss_val += criterion(preds, yb)
                 avg_loss = loss_val / len(val_dl)
-                print("Epoch {0:d}: training loss={1:.3f}".format(epoch+1, avg_loss))
+                if verbose:
+                    print("Epoch {0:d}: training loss={1:.3f}".format(epoch+1, avg_loss))
                 
 def predict(model, dataset, batch_size=None):
     if batch_size is None:

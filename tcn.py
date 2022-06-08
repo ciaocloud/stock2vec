@@ -1,8 +1,26 @@
 # ref: https://github.com/locuslab/TCN/blob/master/TCN/tcn.py
-
+import numpy as np
 import torch
-import torch.nn as nn
+from torch import nn, optim
+import torch.nn.functional as F
 from torch.nn.utils import weight_norm
+from torch.utils.data import Dataset, DataLoader
+from tqdm import tqdm
+    
+class TemporalDataset(Dataset):
+    def __init__(self, X, y, timesteps=None):
+        if timesteps is None:
+            self.X = X
+        else:
+            self.X = X[:, -timesteps:]
+        self.y = y
+
+    def __len__(self):
+        return len(self.y)
+
+    def __getitem__(self, idx):
+        return [self.X[idx], self.y[idx]]
+    
 
 class Chomp1d(nn.Module):
     def __init__(self, chomp_size):
@@ -21,7 +39,7 @@ class TemporalBlock(nn.Module):
         self.relu1 = nn.ReLU()
         self.dropout1 = nn.Dropout(dropout)
 
-        self.conv2 = weight_norm(nn.Conv1d(n_outputs, n_outputs, kernel_size
+        self.conv2 = weight_norm(nn.Conv1d(n_outputs, n_outputs, kernel_size,
                                            stride=stride, padding=padding, dilation=dilation))
         self.chomp2 = Chomp1d(padding)
         self.relu2 = nn.ReLU()
@@ -44,9 +62,9 @@ class TemporalBlock(nn.Module):
         res = x if self.downsample is None else self.downsample(x)
         return self.relu(out+res)
 
-class TCN(nn.Module):
+class TemporalConvNet(nn.Module):
     def __init__(self, num_inputs, num_channels, kernel_size=2, dropout=0.2):
-        super(TCN, self).__init__()
+        super(TemporalConvNet, self).__init__()
         layers = []
         num_levels = len(num_channels)
         for i in range(num_levels):
@@ -58,4 +76,65 @@ class TCN(nn.Module):
         self.network = nn.Sequential(*layers)
 
     def forward(self, x):
-        return self.network(x)
+        out = self.network(x)
+        return out[:, :, -1]
+
+def train_model(model, train_dl, val_dl=None, n_epochs=1, criterion=nn.MSELoss(),
+                    lr=1e-2, weight_decay=0., one_cycle=False, device=None):
+    if not device:
+        device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+#     print(device)
+    if one_cycle:
+        optimizer = optim.SGD(model.parameters(), lr=lr, weight_decay=weight_decay)
+        scheduler = optim.lr_scheduler.OneCycleLR(optimizer, max_lr=lr, 
+                                steps_per_epoch=len(train_dl), epochs=n_epochs)
+    else:
+        optimizer = optim.Adam(model.parameters(), lr=lr, weight_decay=weight_decay)
+
+    model.to(device)
+    for epoch in range(n_epochs):
+        model.train()
+        losses = []
+        for xb, yb in tqdm(train_dl):
+            optimizer.zero_grad()
+#             print(xb.size(), yb.size())
+            xb, yb = xb.to(device), yb.to(device)
+            preds = model(xb)
+            loss = criterion(preds, yb.float())
+
+            loss.backward()
+            optimizer.step()
+            if one_cycle:
+                scheduler.step()
+            losses.append(loss.item())
+        avg_loss = np.mean(np.array(losses))
+        print("Epoch {0:d}: training loss={1:.5f}".format(epoch+1, avg_loss))
+
+        if val_dl is not None:
+            model.eval()
+            with torch.no_grad():
+                loss_val = 0.
+                for xb, yb in val_dl:
+                    xb, yb = xb.to(device), yb.to(device)
+                    preds = model(xb)
+                    loss_val += criterion(preds, yb)
+                avg_loss = loss_val / len(val_dl)
+                print("Epoch {0:d}: val loss={1:.5f}".format(epoch+1, avg_loss))
+
+def predict(model, dataset, batch_size=None):
+    if batch_size is None:
+        batch_size = len(dataset)
+    dl = DataLoader(dataset, batch_size, shuffle=False)
+    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    model.to(device)
+    model.eval()
+    preds, targets = [], []
+    for xb, yb in tqdm(dl):
+        with torch.no_grad():
+            yb_hat = model(xb.to(device))
+#             print(yb_hat.shape)
+            preds.append(yb_hat.cpu().data.numpy())
+            targets.append(yb.cpu().data.numpy())
+    preds = np.vstack(preds)
+    targets = np.vstack(targets)
+    return preds, targets

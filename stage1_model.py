@@ -95,17 +95,21 @@ class Stage1Model(nn.Module):
         return x
 
 def train_model(model, train_dl, val_dl=None, n_epochs=1, criterion=nn.MSELoss(),
-                    lr=1e-2, weight_decay=0., one_cycle=True):
+                    lr=1e-2, weight_decay=0., one_cycle=False):
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-    optimizer = optim.SGD(model.parameters(), lr=lr, weight_decay=weight_decay)
     if one_cycle:
+        optimizer = optim.SGD(model.parameters(), lr=lr, weight_decay=weight_decay)
         scheduler = optim.lr_scheduler.OneCycleLR(optimizer, max_lr=lr, 
                                 steps_per_epoch=len(train_dl), epochs=n_epochs)
+    else:
+        optimizer = optim.Adam(model.parameters(), lr=lr, weight_decay=weight_decay)
+        
     model.to(device)
     for epoch in range(n_epochs):
         model.train()
         losses = []
         for xb_cat, xb_cont, yb in tqdm(train_dl):
+#         for xb_cat, xb_cont, yb in train_dl:
             optimizer.zero_grad()
             xb_cat, xb_cont, yb = xb_cat.to(device), xb_cont.to(device), yb.to(device)
             preds = model(xb_cat, xb_cont)
@@ -117,18 +121,18 @@ def train_model(model, train_dl, val_dl=None, n_epochs=1, criterion=nn.MSELoss()
                 scheduler.step()
             losses.append(loss.item())
         avg_loss = np.mean(np.array(losses))
-        print("Epoch {0:d}: training loss={1:.3f}".format(epoch+1, avg_loss))
+        print("Epoch {0:d}: training loss={1:.5f}".format(epoch+1, avg_loss))
 
         if val_dl is not None:
             model.eval()
             with torch.no_grad():
                 loss_val = 0.
-                for xb_cat, xb_cont, yb in tqdm(val_dl):
+                for xb_cat, xb_cont, yb in val_dl:
                     xb_cat, xb_cont, yb = xb_cat.to(device), xb_cont.to(device), yb.to(device)
                     preds = model(xb_cat, xb_cont)
                     loss_val += criterion(preds, yb)
                 avg_loss = loss_val / len(val_dl)
-                print("Epoch {0:d}: training loss={1:.3f}".format(epoch+1, avg_loss))
+                print("Epoch {0:d}: val loss={1:.5f}".format(epoch+1, avg_loss))
 
 def predict(model, dataset, batch_size=None):
     if batch_size is None:
