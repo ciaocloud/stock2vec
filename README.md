@@ -1,1 +1,1 @@
-# TwoStagesStock
+Stock2Vec
